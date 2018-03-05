@@ -13,8 +13,9 @@ Please note, the below example is spread out into multiple lines where in real l
 	"session_number":"130",
 	"run_number":"0",
 	"delimiter":"|",
-	"value_mapping":{
-		"SwitchType":{
+	"json_columns": [],
+	"value_mapping": {
+		"SwitchType": {
 			"0":"TaskBlock",
 			"1":"ActiveInputReceivers",
 			"2":"Left",
@@ -25,7 +26,7 @@ Please note, the below example is spread out into multiple lines where in real l
 			"7":"None"
 		}
 	},
-	"column_mapping":{
+	"column_mapping": {
 		"default":[
 			"level",
 			"trial",
@@ -73,6 +74,10 @@ This field will be present for all log files and tells the parser how it can par
 0|123|739|1
 ```
 
+
+### JSON Columns
+
+This tells the parser that this column features a JSON value that is more complex than just a field value and should be parsed accordingly.
 
 ### Column Mapping
 

@@ -19,9 +19,30 @@ def remove_redundant_meta_data_keys(meta_data):
 	for field in Config.RedundantFields:
 		meta_data.pop(field, None)
 
+def convert_data_to_type(data_value):
+	if data_value.upper() == "TRUE":
+		return True
+
+	if data_value.upper() == "FALSE":
+		return False
+
+	try:
+		f = float(data_value)
+		return f
+	except Exception as e:
+		pass
+
+	try:
+		j = json.loads(data_value)
+		return j
+	except Exception as e:
+		pass
+
+	return data_value
+
 def parse_data_line(line, meta_data):
 	data = line.strip('\r').split(meta_data[Config.Delimiter])
-	json = {}
+	json_result = {}
 	column_mapping_key = Config.Default
 
 	for i in range(len(data)):
@@ -34,14 +55,16 @@ def parse_data_line(line, meta_data):
 
 		if key in meta_data[Config.ValueMapping]:
 			if data[i] in meta_data[Config.ValueMapping][key]:
-				json[key] = meta_data[Config.ValueMapping][key][data[i]]
+				json_result[key] = meta_data[Config.ValueMapping][key][data[i]]
 			else:
 				print "Value mapping for " + key + " not found."
-				json[key] = data[i]
+				json_result[key] = data[i]
 		else:
-			json[key] = data[i]
+			json_result[key] = data[i]
 
-	return json
+		json_result[key] = convert_data_to_type(json_result[key])
+
+	return json_result
 
 def convert_file(file_path):
 	correct_format = True
@@ -122,7 +145,7 @@ if __name__ == '__main__':
 					output_file = file_name.replace(".bgc", ".json")
 
 					f = open(output_file, 'w')
-					f.write(json.dumps(json_file))
+					f.write(json.dumps(json_file, default=lambda o: o.__dict__))
 					f.close()
 
 					print "Wrote json file to " + output_file

@@ -114,6 +114,7 @@ def convert_directory(directory_path, valid_directory_path, invalid_dirrectory_p
 
 		if valid:
 			output_path = os.path.join(valid_directory_path, file_name)
+			output_path = output_path.replace('.bgc', '.json')
 
 			f = open(output_path, 'w')
 			f.write(json.dumps(output))

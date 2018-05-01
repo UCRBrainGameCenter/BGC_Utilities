@@ -25,7 +25,7 @@ def main():
 		print "Operation cancelled. Please select directory for operation to run."
 	else:
 		if(confirm_directory(directory_path)):
-			convert_bgc_to_json.convert_directory(directory_path, get_new_directory_path(), get_incorrect_directory_path())
+			bgc_to_json.convert_directory(directory_path, get_new_directory_path(), get_incorrect_directory_path())
 
 if __name__ == '__main__':
 	main()

@@ -36,7 +36,7 @@ def main():
 			output_directory = get_new_directory_path()
 			error_directory = get_incorrect_directory_path()
 
-			if sys.argv[1] == "--ipad":
+			if len(sys.argv) == 2 and sys.argv[1] == "--ipad":
 				for user_directory in os.listdir(directory_path):
 					user_directory_path = os.path.join(directory_path, user_directory)
 					if not os.path.isdir(user_directory_path):

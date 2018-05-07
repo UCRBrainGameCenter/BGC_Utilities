@@ -52,9 +52,8 @@ def parse_data_line(line, meta_data):
 			if data[0] in meta_data[Config.ColumnMapping]:
 				column_mapping_key = data[0]
 				column_mapping_found = True
-				continue
 
-		key = meta_data[Config.ColumnMapping][column_mapping_key][i - 1]
+		key = meta_data[Config.ColumnMapping][column_mapping_key][i]
 
 		if key in meta_data[Config.ValueMapping]:
 			if data[i] in meta_data[Config.ValueMapping][key]:

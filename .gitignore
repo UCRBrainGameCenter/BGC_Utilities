@@ -102,3 +102,4 @@ ENV/
 
 # bgc files
 *.bgc
+*.json

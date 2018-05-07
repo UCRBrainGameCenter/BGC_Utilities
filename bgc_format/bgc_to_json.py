@@ -44,14 +44,17 @@ def parse_data_line(line, meta_data):
 	data = line.strip('\r').split(meta_data[Config.Delimiter])
 	json_result = {}
 	column_mapping_key = Config.Default
+	column_mapping_found = False
 
 	for i in range(len(data)):
 		# create mapping for column mapping if necessary
 		if i == 0:
 			if data[0] in meta_data[Config.ColumnMapping]:
-				column_mapping_key = meta_data[Config.ColumnMapping][data[0]]
+				column_mapping_key = data[0]
+				column_mapping_found = True
+				continue
 
-		key = meta_data[Config.ColumnMapping][column_mapping_key][i]
+		key = meta_data[Config.ColumnMapping][column_mapping_key][i - 1]
 
 		if key in meta_data[Config.ValueMapping]:
 			if data[i] in meta_data[Config.ValueMapping][key]:
@@ -156,3 +159,5 @@ if __name__ == '__main__':
 				print "Error: " + file_name + " could be found but must have the '.bgc' extension."
 		else:
 			print "Error: " + file_name + " is not a valid file that can be found."
+	else:
+		print "please provide the file name to convert."

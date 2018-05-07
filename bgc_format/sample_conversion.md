@@ -60,7 +60,7 @@ Goes To:
 	{
 		"game_type": "ultim_eyes",
 		"testing": "e",
-		"if": "12341234",
+		"if": 12341234,
 		"this": "g",
 		"works": "h"
 	},

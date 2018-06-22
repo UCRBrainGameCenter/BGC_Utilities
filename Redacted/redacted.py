@@ -2,6 +2,7 @@
 
 from PyPDF2 import PdfFileWriter, PdfFileReader
 import Tkinter, tkFileDialog, tkMessageBox
+import pypdftk
 import os
 
 def redact(original_file_location, blocker_file_location):
@@ -22,7 +23,11 @@ def redact(original_file_location, blocker_file_location):
 	return output
 
 def redact_files_in_directory(input_directory, output_directory, blocking_file):
-	for file in os.listdir(input_directory):
+	files = os.listdir(input_directory)
+	length = len(files)
+
+	for i in range(length):
+		file = files[i]
 		if os.path.isfile(file):
 			print file, "is not a file and cannot be converted"
 			continue
@@ -31,11 +36,21 @@ def redact_files_in_directory(input_directory, output_directory, blocking_file):
 			continue
 
 		output = redact(os.path.join(input_directory, file), blocking_file)
-		with open(os.path.join(output_directory, file), 'wb') as file:
-			output.write(file)
+		output_file = os.path.join(output_directory, file)
+		temp_output_file = output_file + "_temp"
+
+		with open(temp_output_file, 'wb') as f:
+			output.write(f)
+		
+		print "(" + str(i) + "/" + str(length - 1) + "): ", file
+		os.system("pdf2ps " + temp_output_file + " - | " + "ps2pdf - " + output_file)
+		os.remove(temp_output_file)
+
+	# only works on mac
+	os.system('say "your program has finished"')
 
 def get_new_directory_path(window_title, window_message):
-	tkMessageBox.showinfo(window_title, window_message);
+	tkMessageBox.showinfo(window_title, window_message)
 	return tkFileDialog.askdirectory()
 
 def get_new_file_path(window_title, window_message):

@@ -23,6 +23,7 @@ def construct_summary_file(directory, session_date, summary_files):
 	# order due to the file name structure
 	summary_files = sorted(summary_files)
 	summary_file = None
+	run_number = 0
 
 	for file_name in summary_files:
 		json_str = open(os.path.join(directory, file_name), 'r').read()
@@ -32,7 +33,9 @@ def construct_summary_file(directory, session_date, summary_files):
 			summary_file = json_data
 		else:
 			for line in json_data[keys.DATA]:
+				line[keys.RUN_NUMBER] = run_number
 				summary_file[keys.DATA].append(line)
+				run_number += 1
 
 	return summary_file
 

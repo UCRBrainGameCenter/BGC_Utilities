@@ -103,3 +103,6 @@ ENV/
 # bgc files
 *.bgc
 *.json
+
+# ignore zip files
+*.zip

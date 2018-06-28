@@ -50,32 +50,17 @@ def build_session(directory, user_files, session_date, summary_files):
 	for data in summary_file[keys.DATA]:
 		# get files that can retrieved with the level 
 		level_files = util.files_with_level(session_files, data[keys.LEVEL])
+		
 		generated_shapes = util.get_generated_shapes_file(level_files)
 		user_drag_events = util.get_user_drag_events(level_files)
 		user_response    = util.get_user_response(level_files)
 		swap_log         = util.get_swap_log(level_files)
 
-		# check previous run number to look for crashes
 		run_number = int(data[keys.RUN_NUMBER])
-		if previous_run_number == run_number:
-			if generated_shapes == None or len(generated_shapes) == 0:
-				print 'run number ' + str(run_number) + ' is a duplicate with no valid files attached to it.'
-				continue
-			if rule_log == None or len(rule_log) == 0:
-				print 'no existing rule log for run number ' + str(run_number)
-				continue
-			else:
-				run_number_incrementer += 1
-		elif generated_shapes == None or len(generated_shapes) == 0:
-			print 'no existing generated_shapes for run number ' + str(run_number)
+
+		if generated_shapes == None or len(generated_shapes) == 0:
+			print 'Generated shapes file missing for run number ' + str(run_number)
 			continue
-		else:
-			previous_run_number = run_number
-
-		while run_number + run_number_incrementer in runs:
-			run_number_incrementer += 1
-
-		run_number += run_number_incrementer
 
 		generated_shapes = util.sort_if_not_null(generated_shapes)[0]
 		user_drag_events = util.sort_if_not_null(user_drag_events)
@@ -130,7 +115,6 @@ def build_session(directory, user_files, session_date, summary_files):
 	session[keys.SUMMARY] = summary_file
 	session[keys.RUNS] = runs
 	return session
-
 
 def create_user_profile(input_directory, output_directory, user_name):
 	user_files    = util.get_user_files(input_directory, user_name)

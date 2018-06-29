@@ -1,20 +1,21 @@
 # @author: colan biemer
 
-from tqdm import tqdm
 import json
 import os
 
 files = os.listdir('users')
 users = {}
 
-swaps = 0
-sessions = 0
-trial_count = 0
-for file_name in tqdm(files):
+
+for file_name in files:
 	user_name = file_name.split('.json')[0]
 
 	if 'EF' not in user_name:
 		continue
+
+	swaps       = 0
+	sessions    = 0
+	trial_count = 0
 
 	json_str = open(os.path.join('users', file_name), 'r').read()
 	user = json.loads(json_str)
@@ -34,6 +35,7 @@ for file_name in tqdm(files):
 
 				trial_count += 1
 
-print "There was " + str(swaps) + " swaps."
-print "There was " + str(sessions) + " sessions."
-print "There was " + str(trial_count) + " trials."
+	print  user_name + " had " + str(swaps) + " swaps."
+	print  user_name + " had " + str(sessions) + " sessions."
+	print  user_name + " had " + str(trial_count) + " trials."
+	print "---------------------------------------"

@@ -6,7 +6,7 @@ import sys
 import os
 import re
 
-USER_RESPONSE = "user_response_level"
+USER_RESPONSE = "user_response"
 SWAP_LOG      = "swap_log"
 EXTENSION     = ".json"
 

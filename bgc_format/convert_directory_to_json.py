@@ -1,5 +1,5 @@
 #!/usr/bin/python
-# @author: COlan Biemer
+# @author: Colan Biemer
 
 import Tkinter, tkFileDialog, tkMessageBox
 import bgc_to_json

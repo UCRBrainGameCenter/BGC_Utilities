@@ -10,7 +10,7 @@ def meta_data_has_correct_fields(meta_data):
 
 	for field in Config.RequiredFields:
 		if field not in meta_data:
-			print field, "not found in meta data"
+			print(str(field) + " not found in meta data")
 			has_required_fields = False
 
 	return has_required_fields
@@ -46,6 +46,13 @@ def parse_data_line(line, meta_data):
 	column_mapping_key = Config.Default
 	column_mapping_found = False
 
+	# intitialzie json_result with all columns
+	for mapping_type in meta_data[Config.ColumnMapping]:
+		for key in meta_data[Config.ColumnMapping][mapping_type]:
+			if key not in json_result:
+				json_result[key] = None
+
+	# Populate json_result with data
 	for i in range(len(data)):
 		# create mapping for column mapping if necessary
 		if i == 0:
@@ -59,7 +66,7 @@ def parse_data_line(line, meta_data):
 			if data[i] in meta_data[Config.ValueMapping][key]:
 				json_result[key] = meta_data[Config.ValueMapping][key][data[i]]
 			else:
-				print "Value mapping for " + key + " not found."
+				print("Value mapping for " + key + " not found.")
 				json_result[key] = data[i]
 		else:
 			json_result[key] = data[i]
@@ -140,7 +147,7 @@ if __name__ == '__main__':
 	if len(sys.argv) == 2:
 		file_name = sys.argv[1]
 
-		if(os.path.isfile(file_name)):
+		if os.path.isfile(file_name):
 			if file_name.endswith(".bgc"):
 				valid, json_file = convert_file(file_name)
 
@@ -151,12 +158,12 @@ if __name__ == '__main__':
 					f.write(json.dumps(json_file, default=lambda o: o.__dict__))
 					f.close()
 
-					print "Wrote json file to " + output_file
+					print("Wrote json file to " + output_file)
 				else:
-					print "Error: " + file_name + " was unable to be parsed. Please look through it for errors."
+					print("Error: " + file_name + " was unable to be parsed. Please look through it for errors.")
 			else:
-				print "Error: " + file_name + " could be found but must have the '.bgc' extension."
+				print("Error: " + file_name + " could be found but must have the '.bgc' extension.")
 		else:
-			print "Error: " + file_name + " is not a valid file that can be found."
+			print("Error: " + file_name + " is not a valid file that can be found.")
 	else:
-		print "please provide the file name to convert."
+		print("please provide the file name to convert.")

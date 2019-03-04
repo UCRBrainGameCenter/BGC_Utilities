@@ -3,6 +3,7 @@
 
 import Config
 import json
+import sys
 import os
 
 def meta_data_has_correct_fields(meta_data):
@@ -20,6 +21,9 @@ def remove_redundant_meta_data_keys(meta_data):
 		meta_data.pop(field, None)
 
 def convert_data_to_type(data_value):
+	if data_value[0] == '"' and data_value[-1] == '"':
+		return data_value[-1:1]
+
 	if data_value.upper() == "TRUE":
 		return True
 
@@ -56,9 +60,17 @@ def parse_data_line(line, meta_data):
 	for i in range(len(data)):
 		# create mapping for column mapping if necessary
 		if i == 0:
-			if data[0] in meta_data[Config.ColumnMapping]:
-				column_mapping_key = data[0]
+			mapping_name = data[0]
+			if mapping_name[0] == '"' and mapping_name[-1] == '"':
+				mapping_name = mapping_name[1:-1]
+
+			if mapping_name in meta_data[Config.ColumnMapping]:
+				column_mapping_key = mapping_name
 				column_mapping_found = True
+
+		if column_mapping_found == False and Config.Default not in meta_data[Config.ColumnMapping]:
+			print(f'No valid column mapping was found for row type: {data[0]}')
+			sys.exit(0)
 
 		key = meta_data[Config.ColumnMapping][column_mapping_key][i]
 

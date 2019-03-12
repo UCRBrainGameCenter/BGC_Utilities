@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # @author: Colan Biemer
 
-import Tkinter, tkFileDialog, tkMessageBox
+import tkinter as Tkinter, tkinter.filedialog as tkFileDialog, tkinter.messagebox as tkMessageBox
 import bgc_to_json
 import sys
 import os
@@ -29,8 +29,8 @@ def main():
 
 	directory_path = tkFileDialog.askdirectory()
 
-	if directory_path == () or directory_path == None:
-		print "Operation cancelled. Please select directory for operation to run."
+	if directory_path == () or directory_path == None or directory_path == "":
+		print("Operation cancelled. Please select directory for operation to run.")
 	else:
 		if(confirm_directory(directory_path)):
 			output_directory = get_new_directory_path()
@@ -40,7 +40,7 @@ def main():
 				for user_directory in os.listdir(directory_path):
 					user_directory_path = os.path.join(directory_path, user_directory)
 					if not os.path.isdir(user_directory_path):
-						print "ignoring file", user_directory_path
+						print("ignoring file: " + user_directory_path)
 						continue
 
 					bgc_to_json.convert_directory(

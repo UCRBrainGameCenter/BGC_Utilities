@@ -51,10 +51,10 @@ def parse_data_line(line, meta_data):
 	column_mapping_found = False
 
 	# intitialzie json_result with all columns
-	for mapping_type in meta_data[Config.ColumnMapping]:
-		for key in meta_data[Config.ColumnMapping][mapping_type]:
-			if key not in json_result:
-				json_result[key] = None
+	#for mapping_type in meta_data[Config.ColumnMapping]:
+	#	for key in meta_data[Config.ColumnMapping][mapping_type]:
+	#		if key not in json_result:
+	#			json_result[key] = None
 
 	# Populate json_result with data
 	for i in range(len(data)):
@@ -75,10 +75,11 @@ def parse_data_line(line, meta_data):
 		key = meta_data[Config.ColumnMapping][column_mapping_key][i]
 
 		if key in meta_data[Config.ValueMapping]:
+			data[i] = data[i].replace('"','')
 			if data[i] in meta_data[Config.ValueMapping][key]:
 				json_result[key] = meta_data[Config.ValueMapping][key][data[i]]
 			else:
-				print("Value mapping for " + key + " not found.")
+				print("Value mapping for " + key + " not found for value " + data[i] + ".")
 				json_result[key] = data[i]
 		else:
 			json_result[key] = data[i]

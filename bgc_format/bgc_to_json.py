@@ -129,9 +129,11 @@ def convert_directory(directory_path, valid_directory_path, invalid_dirrectory_p
 	for file_name in os.listdir(directory_path):
 		file_path = os.path.join(directory_path, file_name)
 
-		if not os.path.isfile(file_path):
+		if not os.path.isfile(file_path) or not file_name.endswith('.bgc'):
+			print(f'Skipping: {file_path}')
 			continue
 
+		print(f'Converting: {file_path}')
 		valid, output = convert_file(file_path)
 
 		if valid:

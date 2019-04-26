@@ -21,6 +21,9 @@ def remove_redundant_meta_data_keys(meta_data):
 		meta_data.pop(field, None)
 
 def convert_data_to_type(data_value):
+	if data_value == '':
+		return ''
+
 	if data_value[0] == '"' and data_value[-1] == '"':
 		return data_value[-1:1]
 

@@ -55,13 +55,18 @@ if __name__ == '__main__':
 	elif args.run_gui:
 		root = Tkinter.Tk()
 		root.withdraw()
-
+		
+		tkMessageBox.showinfo(
+			title="Data Directory",
+			message="Enter in the directory where the data (.bgc) files are located"
+		)
+		
 		directory_path = tkFileDialog.askdirectory()
 
 		if directory_path == () or directory_path == None or directory_path == "":
 			print("Operation cancelled. Please select directory for operation to run.")
 		else:
-			if(confirm_directory(directory_path)):
+			if confirm_directory(directory_path):
 				output_directory = get_new_directory_path()
 				error_directory = get_incorrect_directory_path()
 

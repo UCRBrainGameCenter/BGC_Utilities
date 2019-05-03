@@ -21,11 +21,11 @@ def remove_redundant_meta_data_keys(meta_data):
 		meta_data.pop(field, None)
 
 def convert_data_to_type(data_value):
-	if data_value == '':
+	if data_value == '' or data_value == '""':
 		return ''
 
 	if data_value[0] == '"' and data_value[-1] == '"':
-		return data_value[-1:1]
+		return data_value[1:-1]
 
 	if data_value.upper() == "TRUE":
 		return True
@@ -52,12 +52,6 @@ def parse_data_line(line, meta_data):
 	json_result = {}
 	column_mapping_key = Config.Default
 	column_mapping_found = False
-
-	# intitialzie json_result with all columns
-	#for mapping_type in meta_data[Config.ColumnMapping]:
-	#	for key in meta_data[Config.ColumnMapping][mapping_type]:
-	#		if key not in json_result:
-	#			json_result[key] = None
 
 	# Populate json_result with data
 	for i in range(len(data)):
